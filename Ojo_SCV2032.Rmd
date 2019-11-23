@@ -1,0 +1,19 @@
+---
+title: "Assignment"
+author: "Ojo Ilesanmi"
+date: "October 11, 2019"
+output: pdf_document
+---
+
+```{r}
+diamond<-read.csv("diamond.csv", header = T)
+View(diamond)
+```
+
+```{r}
+plot(diamond$price, diamond$depth, main = "Relationship between the Price and Depth of Diamond", xlab = "Depth", ylab= "price")
+```
+
+```{r}
+hist(log(diamond$price), xlab = "Price", main = "Histogram price of Diamond")
+```

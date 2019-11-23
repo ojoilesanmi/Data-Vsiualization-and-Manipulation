@@ -1,0 +1,85 @@
+---
+title: "Session3"
+author: "Ojo Ilesanmi"
+date: "October 17, 2019"
+output: pdf_document
+---
+
+```{r}
+dta<- read_excel("mbta.xlsx", skip =1, range = cell_cols(2:60))
+View(dta)
+```
+
+#Gathering the years
+```{r}
+dta_tidy<-dta%>% gather('2007-01':'2011-10', key= "year", value= "passengers")
+View(dta_tidy)
+```
+
+```{r}
+dta_tidy1<-dta_tidy%>% separate(year, into= c("year", "month"))
+View(dta_tidy1)
+```
+
+```{r}
+dta_tidy2<-dta_tidy1 %>% spread(mode, passengers)
+
+View(dta_tidy2)
+
+```
+
+```{r}
+dta_tidy3<-dta_tidy2 %>% .[,c(1:2,6:8)]
+View(dta_tidy3)
+```
+
+```{r}
+dta_tidy4<-dta_tidy3 %>% gather('Commuter Rail':'Light Rail', key = "rail_type", value= passengers)
+View(dta_tidy4)
+```
+
+```{r}
+data(hflights)
+Vie
+w(hflights)
+```
+
+```{r}
+february_flights<-filter(hflights, Year==2011, Month ==2)
+View(february_flights)
+```
+
+```{r}
+fil<-filter(hflights, Dest %in% c("FLL","IAH"))
+View(fil)
+```
+
+```{r}
+k<-filter(hflights, Year==2011, Month==4)
+View(k)
+```
+
+```{r}
+operator<-filter(k, UniqueCarrier %in% c("AA", "WN"))
+View(operator)
+```
+
+```{r}
+arr<- arrange(hflights, Year, Month)
+View(arr)
+```
+
+```{r}
+first_select<-select(hflights, Year, Month, FlightNum, AirTime)[1:4,]
+View(first_select)
+```
+
+```{r}
+ren_1<-rename(hflights, tail_num = TailNum)
+View(ren_1)
+```
+
+```{r}
+total_goals<-c()
+total_goals<-c(total_goals, "new element")
+```

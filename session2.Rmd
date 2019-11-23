@@ -1,0 +1,99 @@
+---
+title: "Session 2"
+author: "Ojo Ilesanmi"
+date: "October 10, 2019"
+output: pdf_document
+---
+
+```{r}
+WHO<-read.table(file.choose(), header = T, sep = ",")
+View(WHO)
+
+
+```
+
+```{r}
+auto<-read.table("auto.txt", header = F, sep = ",")
+names(auto)<-c("sym","norm","make","f_type","asp","num_doors","body_style","drive_wheel","engine_loc","wheel_base","length","width","height","curb_weight","engine_type","num_cyl","eng_size","fuel_type","bore","stroke","comp","horse","peak_rpm","city_mpg","highway","price")
+View(auto)
+```
+
+```{r}
+uks<-read.table("potatoes.txt", header = F, sep = "\t")
+View(uks)
+```
+
+```{r}
+sht1 <- read_excel("Employees.xlsx", sheet = 1)
+sht2 <- read_excel("Employees.xlsx", sheet = 2)
+
+str(sht1)
+```
+```{r}
+host<-"courses.csrrinzqubik.us-east-1.rds.amazonaws.com"
+connect <- dbConnect(RMySQL::MySQL(), dbname= "tweater", host = host, port = 3306, user ="student", password = 'datacamp')
+```
+
+```{r}
+cape_codd<- dbConnect(RMySQL::MySQL(), dbname= "Cape_Codd", host = "127.0.0.1", port = 3306, user = "root", password ="Oluwaranti96" )
+```
+
+```{r}
+Cape<- dbListTables(cape_codd)
+View(Cape)
+```
+
+```{r}
+tables<-dbListTables(connect)
+tables
+```
+```{r}
+user_table<-dbReadTable(connect, "users")
+View(user_table)
+```
+
+```{r}
+com_table<-dbReadTable(connect, "comments")
+View(com_table)
+```
+
+```{r}
+users<-dbReadTable(connect, "users")
+users
+```
+
+```{r}
+write.csv(com_table, file = "comments.csv")
+```
+
+```{r}
+write.table(com_table, file= "comt.txt", sep = "\t")
+```
+
+```{r}
+read.table("comt.txt", header = T, sep = "\t")
+```
+
+```{r}
+d_ta<-read_dta(file.choose())
+```
+
+```{r}
+str(d_ta)
+```
+
+```{r}
+house<-read.csv("house.csv", header = T)
+```
+
+```{r}
+View(house)
+```
+
+```{r}
+plot(house$Bathroom, house$Price, main ="Relationship between Bathrooms and Price", xlab = "Number of bathrooms", ylab= "Price of the House")
+```
+
+```{r}
+hist(log(house$Price), xlab = "Price", main = "Histogram of Price")
+```

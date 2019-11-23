@@ -1,0 +1,113 @@
+---
+title: "Data Visualization"
+author: "Ojo Ilesanmi"
+date: "October 24, 2019"
+output: pdf_document
+---
+
+```{r}
+dmd <- read.table("diamond.csv", header = T, sep = ",", dec =".")
+head(dmd)[, 1:5]
+```
+
+```{r}
+
+ggplot(dmd, aes(x= carat, y= price))
+```
+```{r}
+ggplot(dmd, aes(x=carat, y= price))+ geom_point()
+```
+```{r}
+ggplot(dmd, aes(x=carat, y=price)) + geom_point(colour="blue")
+```
+
+```{r}
+ggplot(dmd, aes(x=carat, y= price, colour= cut)) + geom_point()
+```
+```{r}
+a <-ggplot(dmd, aes(x= carat, y=price)) + geom_point(aes(colour= cut, shape = cut, size = 0.8))
+a
+```
+
+```{r}
+b<- a + labs(title = "The relationship between the price and carat of diamond", x="carat", y ="price")
+b
+```
+```{r}
+c<-b + scale_y_continuous(name = "Price", limits = c(0, 15000), breaks = seq(0, 15000, by = 3000)) + 
+  scale_x_continuous(name = "carat", limits = c(0,4), breaks = seq(0,4, by=0.5))
+c
+```
+
+```{r}
+flight<- read_excel("mbta.xlsx", skip =1, range = cell_cols(2:60))
+flight
+```
+```{r}
+tidy_flights<- flight %>% gather('2007-01' : '2011-10', key = "year", value="passengers")
+tidy_flights
+```
+
+```{r}
+tidy_flights2<-tidy_flights %>% separate(year, into= c("year", "month"))
+tidy_flights2
+```
+
+```{r}
+transportation<-filter(tidy_flights2, mode %in%  c("Commuter Rail", "Heavy Rail", "Light Rail","Private Bus"))
+transportation
+
+                       
+```
+```{r}
+transportation$mode<-as.factor(transportation$mode)
+transportation$passengers<-as.numeric(transportation$passengers)
+transportation$year<-as.factor(transportation$year)
+```
+
+```{r}
+x<-ggplot(transportation, aes(x=year, y=passengers, colour=mode)) +geom_point()
+x
+```
+```{r}
+x2<- x + labs(title="Number of users of different mode of transportaion in different years", x="different years", y="number of passengers")
+x2
+```
+
+```{r}
+x2 + theme_gray()
+```
+
+```{r}
+d<- c +  scale_color_brewer(name = "Diamond Color", 
+ palette = "Set1")
+d
+```
+
+```{r}
+?scale_color_manual
+```
+
+```{r}
+e<- d + scale_color_manual(name = "Diamond cut", values = c("blue", "orange", "red", "purple", "cyan"), labels=c("Fair", "Good", "Ideal", "Premium", "VG"))
+e
+```
+
+```{r}
+?geom_smooth
+```
+
+```{r}
+f<- e + geom_smooth(method = "lm")
+f
+```
+
+```{r}
+g<-f + facet_grid( ~ cut)+theme_bw()
+g
+```
+
+```{r}
+h<- ggplot(dmd, aes(x= cut)) + geom_bar()
+sh
+```

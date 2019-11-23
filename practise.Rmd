@@ -1,0 +1,319 @@
+---
+title: "Practise"
+author: "Ojo Ilesanmi"
+date: "November 3, 2019"
+output: pdf_document
+---
+
+```{r}
+v<-(ggplot2::mpg)
+view(v)
+?mpg
+```
+
+```{r}
+ggplot(mpg) + geom_point(aes(x=cyl, y=hwy))
+```
+
+```{r}
+ggplot(mpg) + geom_point(aes(x=displ, y= hwy, colour= class))
+```
+```{r}
+ggplot(mpg) + geom_point(aes(x=displ, y= hwy, colour= class)) + facet_wrap(~ class, nrow = 2)
+```
+
+```{r}
+ggplot(mpg) + geom_point(aes(x=displ, y= hwy, colour= class)) + facet_grid(drv ~ cyl)
+```
+
+```{r}
+ggplot(data = mpg) +
+geom_point(mapping = aes(x = displ, y = hwy)) +
+facet_grid(drv ~ .)
+```
+
+```{r}
+ggplot(mpg) + geom_bar(aes(x = manufacturer, fill=class))
+```
+
+
+```{r}
+?tibble
+```
+
+```{r}
+nycflights13::flights
+```
+
+```{r}
+who<- read.csv(file.choose(), header = T)
+```
+
+```{r}
+tidy<- as_tibble(who)
+```
+```{r}
+tidy1<-tidy %>% gather(new_sp:hiv_reg_new2, key = "keys", value= "cases", na.rm=TRUE)
+tidy1
+```
+```{r}
+tidy1 %>% count(key)
+```
+
+```{r}
+who2<-tidy1 %>% mutate(keys = stringr::str_replace(keys, "newrel", "new_rel"))
+who2
+```
+
+```{r}
+who3<- who2 %>% select(-iso2, -iso3)
+who3
+```
+
+```{r}
+who4<- who2 %>% separate(keys, c("new", "type", "sexage"), sep="_")
+who4
+```
+
+```{r}
+nycflights13::planes
+```
+
+```{r}
+PK<-planes %>% count(tailnum) %>% filter(n >1)
+as_tibble(PK)
+```
+
+```{r}
+WT<-nycflights13::weather
+```
+
+```{r}
+as_tibble(WT)
+```
+
+```{r}
+WT %>% count(year, month, day, hour, origin) %>% filter(n>1)
+```
+
+```{r}
+ft<-nycflights13::flights
+```
+
+```{r}
+as_tibble(ft)
+```
+
+```{r}
+ft %>% count(year, month, day, flight) %>% filter(n >1)
+```
+
+```{r}
+ft %>% count(year, month, day, tailnum) %>% filter(n>1)
+```
+```{r}
+ft2<- ft %>% select(year:day, hour, origin, dest, tailnum, carrier)
+ft2
+```
+
+```{r}
+nycflights13::airlines
+```
+
+```{r}
+ft2 %>% select(-origin, -dest) %>% left_join(airlines, by= "carrier")
+```
+
+```{r}
+Sys.timezone()
+```
+
+```{r}
+length(OlsonNames())
+head(OlsonNames())
+```
+
+```{r}
+both_na<- function (x, y) {
+  sum(is.na(x) & is.na(y))
+}
+```
+
+```{r}
+both_na(c(6, NA, NA, NA, NA), c(NA,2, 3, 4, 5))
+```
+
+```{r}
+skewness<- function(x, na.rm= FALSE){
+  n<- length(x)
+  m<- mean(x, na.rm = na.rm)
+  v<-var(x, na.rm= na.rm)
+  
+  (sum((x-m)^3)/(n-2))/v^(3/2)
+}
+  skewness(c(4, 8, 10, 100))
+```
+
+```{r}
+f1 <- function(string, prefix) {
+substr(string, 1, nchar(prefix)) == prefix
+}
+f1
+```
+
+```{r}
+forcats::gss_cat
+```
+
+```{r}
+average<-  function(x, na.rm= FALSE){
+  f<-length(x)
+  sumi<- sum(x)
+  sumi/f
+}
+average(c(7, 45, 67, 76))
+```
+
+```{r}
+demo(persp)
+
+```
+
+```{r}
+football<- read.csv("C:/Users/USER/Documents/R/WorldCupMatches.csv", header = T)
+```
+
+```{r}
+f2014<- filter(football, Year== 2014)
+View(f2014)
+```
+
+```{r}
+total_goals<-c()
+total_goals<-c(total_goals, "new element")
+```
+
+```{r}
+for (i in 1:nrow(f2014)) {
+  total_goals <- c(total_goals, f2014$Home.Team.Goals[i] + f2014$Away.Team.Goals[i])
+}
+
+```
+
+```{r}
+for (i in 1:nrow(f2014)) {  
+  if (f2014$Home.Team.Goals[i] > f2014$Away.Team.Goals[i]) {
+    print(TRUE)
+  } else {
+    print(FALSE) 
+  }
+}
+```
+
+```{r}
+home_team_won<-c()
+
+home_team_won<c(home_team_won, TRUE)
+
+home_team_won<c(home_team_won, FALSE)
+
+```
+
+```{r}
+home_team_won <- c()
+
+for (i in 1:nrow(f2014)) { 
+  if (f2014$Home.Team.Goals[i] > f2014$Away.Team.Goals[i]) {
+    home_team_won <- c(home_team_won, TRUE)
+  } else {
+    home_team_won <- c(home_team_won, FALSE)
+  }
+}
+
+```
+
+```{r}
+f2014<-f2014 %>% mutate(home_team_won = home_team_won)
+```
+
+```{r}
+for (i in 1:nrow(f2014)) {  
+  if (f2014 $Home.Team.Goals[i] > f2014$Away.Team.Goals[i]) {
+    print("win")
+  } else if (f2014$Home.Team.Goals[i] < f2014$Away.Team.Goals[i]) {
+    print("lose")
+  } else if (f2014$Home.Team.Goals[i] == f2014$Away.Team.Goals[i]) {
+    print("tie")
+  }
+}
+```
+
+```{r}
+home_team_result<-c()
+#home_team_result<-c(home_team_result, "win", "lose", "tie")
+home_team_result<-c(home_team_result, "win")
+home_team_result<-c(home_team_result, "lose")
+home_team_result<-c(home_team_result, "tie")
+```
+
+```{r}
+f2014<-f2014 %>% mutate(Win.conditions = home_team_result)
+```
+
+```{r}
+home_team_result<-c()
+for (i in 1:nrow(f2014)) {  
+  if (f2014 $Home.Team.Goals[i] > f2014$Away.Team.Goals[i]) {
+    home_team_result<-c(home_team_result, "win")
+  } else if (f2014$Home.Team.Goals[i] < f2014$Away.Team.Goals[i]) {
+    home_team_result<-c(home_team_result, "lose")
+  } else if (f2014$Home.Team.Goals[i] == f2014$Away.Team.Goals[i]) {
+    home_team_result<-c(home_team_result,"tie")
+  }
+}
+```
+
+```{r}
+View(f2014)
+```
+
+```{r}
+f2014<- f2014 %>% mutate(home_team_result = home_team_result)
+```
+
+```{r}
+View(f2014)
+```
+
+```{r}
+away_team_result<-c()
+away_team_result<-c(away_team_result, "win")
+away_team_result<-c(away_team_result, "lose")
+away_team_result<-c(away_team_result, "tie")
+```
+
+```{r}
+away_team_result<-c()
+for (i in 1:nrow(f2014)){
+  if(f2014$Away.Team.Goals[i] > f2014$Home.Team.Goals[i]){
+    away_team_result<-c(away_team_result, "win")
+  }
+  else if(f2014$Away.Team.Goals[i] < f2014$Home.Team.Goals[i])
+    away_team_result<-c(away_team_result, "lose")
+  else if(f2014$Away.Team.Goals[i] == f2014$Home.Team.Goals[i])
+    away_team_result<-c(away_team_result, "tie")
+}
+```
+
+```{r}
+f2014<- f2014 %>% mutate(away_team_result= away_team_result)
+```
+
+```{r}
+View(f2014)
+```
+
+
+```{r}
+
+```
